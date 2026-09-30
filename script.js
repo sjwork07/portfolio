@@ -382,7 +382,7 @@ document.querySelectorAll('.bento-card, .skill-card, .project-card').forEach(ele
 });
 
 // ═══════════════════════════════════════════════════════════════
-// SMOOTH SCROLLING
+// SMOOTH SCROLLING WITH CONTROLLED SPEED
 // ═══════════════════════════════════════════════════════════════
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -390,10 +390,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition - 80; // Offset for navbar
+      const duration = 1000; // 1 second for smooth scroll
+      let start = null;
+
+      function animation(currentTime) {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+      }
+
+      // Easing function for smooth animation
+      function ease(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+      }
+
+      requestAnimationFrame(animation);
     }
   });
 });
