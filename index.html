@@ -4,11 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savan Jobanputra | AI/ML Engineer — Portfolio</title>
-  <meta name="description"
-    content="Portfolio of Savan Jobanputra — AI/ML Engineer specializing in LLMs, NLP, Computer Vision, and Agentic AI. 4+ years of experience building intelligent systems.">
-  <meta name="keywords" content="AI Engineer, ML Engineer, LLM, NLP, Python, Portfolio, Savan Jobanputra">
-  <meta name="author" content="Savan Jobanputra">
+  <title>Savan Jobanputra | AI/ML Engineer</title>
+  <meta name="description" content="AI/ML Engineer specializing in LLMs, NLP, and Agentic AI">
   <link rel="stylesheet" href="style.css">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -18,21 +15,29 @@
 
 <body>
 
-  <!-- Particle Background -->
-  <canvas id="particles-canvas"></canvas>
+  <!-- Neural Network Canvas Background -->
+  <canvas id="neural-canvas"></canvas>
+
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+    <span class="sun-icon">☀️</span>
+    <span class="moon-icon">🌙</span>
+  </button>
 
   <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo">&lt;SJ /&gt;</a>
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-text">SJ</span>
+        <span class="logo-bracket">/&gt;</span>
+      </a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="#hero" class="active">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <!-- <li><a href="#experience">Experience</a></li> -->
-        <li><a href="#projects">Projects</a></li>
-
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#hero" class="active" data-text="Home">Home</a></li>
+        <li><a href="#about" data-text="About">About</a></li>
+        <li><a href="#skills" data-text="Skills">Skills</a></li>
+        <li><a href="#projects" data-text="Projects">Projects</a></li>
+        <li><a href="#contact" data-text="Contact">Contact</a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
@@ -40,490 +45,490 @@
     </div>
   </nav>
 
-  <!-- ═══════════ HERO ═══════════ -->
+  <!-- Hero Section with 3D Card -->
   <section class="hero" id="hero">
-    <div class="hero-bg-glow cyan"></div>
-    <div class="hero-bg-glow purple"></div>
-    <div class="hero-content">
-      <div class="hero-text hero-text-full">
-        <div class="hero-badge"><span class="pulse"></span> Available for Opportunities</div>
-        <h1>Hi, I'm <span class="gradient">Savan Jobanputra</span></h1>
-        <p class="subtitle">AI / ML Engineer</p>
-        <p>Building intelligent systems with LLMs, NLP, and Agentic AI transforming complex problems into elegant,
-          production-ready solutions.</p>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Available for Opportunities</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="typing-text">Hi, I'm Savan Jobanputra</span>
+        </h1>
+        <div class="hero-subtitle">
+          <span class="role-text">AI / ML Engineer</span>
+          <span class="cursor">|</span>
+        </div>
+        <p class="hero-description">
+          Building intelligent systems with <span class="highlight">LLMs</span>, 
+          <span class="highlight">NLP</span>, and <span class="highlight">Agentic AI</span> — 
+          transforming complex problems into elegant, production-ready solutions.
+        </p>
+        
         <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary">🚀 Let's Connect</a>
-          <a href="#projects" class="btn btn-outline">View Projects ↓</a>
-          <a href="https://drive.google.com/file/d/1RYNwoW10070HuqXaj_vkua5aL_OIh1-i/view?usp=sharing" target="_blank"
-            rel="noopener noreferrer" class="btn btn-outline" id="btn-resume">📄 View Resume</a>
+          <a href="#contact" class="btn btn-primary">
+            <span>Let's Connect</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#projects" class="btn btn-outline">
+            <span>View Work</span>
+          </a>
+          <a href="https://drive.google.com/file/d/1RYNwoW10070HuqXaj_vkua5aL_OIh1-i/view?usp=sharing" target="_blank" class="btn btn-outline">
+            <span>Resume</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M17 13v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2M7 9l3 3m0 0l3-3m-3 3V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
         </div>
+
         <div class="hero-stats">
-          <div class="stat-item">
-            <h3 data-count="5" data-suffix="+">0+</h3>
-            <p>Years Experience</p>
+          <div class="stat-card">
+            <div class="stat-number" data-count="5">0</div>
+            <div class="stat-label">Years Exp</div>
           </div>
-          <div class="stat-item">
-            <h3 data-count="9" data-suffix="+">0+</h3>
-            <p>AI Projects</p>
+          <div class="stat-card">
+            <div class="stat-number" data-count="9">0</div>
+            <div class="stat-label">AI Projects</div>
           </div>
-          <div class="stat-item">
-            <h3 data-count="15" data-suffix="+">0+</h3>
-            <p>Technologies</p>
+          <div class="stat-card">
+            <div class="stat-number" data-count="15">0</div>
+            <div class="stat-label">Technologies</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Floating Terminal -->
+      <div class="hero-visual">
+        <div class="terminal-3d">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="terminal-title">ai_engineer.py</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="command" data-text="python ai_engineer.py --profile"></span>
+            </div>
+            <div class="terminal-output">
+              <div class="output-line"><span class="key">name:</span> <span class="value">"Savan Jobanputra"</span></div>
+              <div class="output-line"><span class="key">role:</span> <span class="value">"AI/ML Engineer"</span></div>
+              <div class="output-line"><span class="key">experience:</span> <span class="value">"5+ years"</span></div>
+              <div class="output-line"><span class="key">location:</span> <span class="value">"Ahmedabad, IN"</span></div>
+              <div class="output-line"><span class="key">specialties:</span> <span class="value">["LLMs", "RAG", "NLP"]</span></div>
+              <div class="output-line"><span class="key">status:</span> <span class="value success">● available</span></div>
+            </div>
+            <div class="terminal-cursor">█</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ ABOUT ═══════════ -->
-  <section class="section" id="about">
-    <div class="section-header reveal">
-      <span class="section-tag">About Me</span>
-      <h2 class="section-title">Crafting AI That <span class="highlight">Matters</span></h2>
-      <!-- <p class="section-subtitle">From neural networks to production deployments — I turn cutting-edge research into
-        real-world impact.</p> -->
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <h3>Passionate About Intelligent Systems</h3>
-        <p>I'm an AI/ML Engineer based in Ahmedabad, India with 5+ years of experience designing and deploying machine
-          learning solutions. I specialize in building AI agents,
-          real-time AI systems, and RAG-powered applications that solve complex business challenges.</p>
-        <p>I began my career working with NLP, Building Custom Object Detection pipelines, text classification pipelines
-          and many more. Over the last few years, I have transitioned to architecting generative AI systems designing
-          RAG pipelines, deploying open-source models, and building agentic workflows.</p>
-        <div class="about-highlights">
-          <div class="about-highlight-card">
-            <div class="icon">🧠</div>
-            <h4>LLM & Agentic AI</h4>
-            <p>Building autonomous AI agents with LangChain & CrewAI</p>
-          </div>
-          <div class="about-highlight-card">
-            <div class="icon">🎙️</div>
-            <h4>Real-Time Systems</h4>
-            <p>WebSocket-based audio streaming with sub-second latency</p>
-          </div>
-          <div class="about-highlight-card">
-            <div class="icon">📊</div>
-            <h4>NLP Pipelines</h4>
-            <p>NER, classification & extraction at enterprise scale</p>
-          </div>
-          <div class="about-highlight-card">
-            <div class="icon">☁️</div>
-            <h4>Cloud & Deploy</h4>
-            <p>AWS SageMaker, Bedrock, Azure</p>
-          </div>
-        </div>
+  <!-- About Section with Bento Grid -->
+  <section class="section about-section" id="about">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-label">About</span>
+        <h2 class="section-title">Building AI That <span class="gradient-text">Matters</span></h2>
       </div>
-      <div class="about-image-side reveal">
-        <div class="about-code-block">
-          <div class="code-header">
-            <span class="code-dot red"></span>
-            <span class="code-dot yellow"></span>
-            <span class="code-dot green"></span>
+
+      <div class="bento-grid">
+        <!-- Main Bio Card -->
+        <div class="bento-card large" data-tilt>
+          <div class="card-glow"></div>
+          <h3>Passionate About Intelligent Systems</h3>
+          <p>I'm an AI/ML Engineer based in Ahmedabad, India with 5+ years of experience designing and deploying machine learning solutions. I specialize in building AI agents, real-time AI systems, and RAG-powered applications that solve complex business challenges.</p>
+          <p>I began my career working with NLP, building custom object detection pipelines, text classification systems and more. Over the last few years, I've transitioned to architecting generative AI systems—designing RAG pipelines, deploying open-source models, and building agentic workflows.</p>
+        </div>
+
+        <!-- Specialties -->
+        <div class="bento-card" data-tilt>
+          <div class="card-icon">🧠</div>
+          <h4>LLM & Agentic AI</h4>
+          <p>Building autonomous AI agents with LangChain & CrewAI</p>
+        </div>
+
+        <div class="bento-card" data-tilt>
+          <div class="card-icon">🎙️</div>
+          <h4>Real-Time Systems</h4>
+          <p>WebSocket-based audio streaming with sub-second latency</p>
+        </div>
+
+        <div class="bento-card" data-tilt>
+          <div class="card-icon">📊</div>
+          <h4>NLP Pipelines</h4>
+          <p>NER, classification & extraction at enterprise scale</p>
+        </div>
+
+        <div class="bento-card" data-tilt>
+          <div class="card-icon">☁️</div>
+          <h4>Cloud & Deploy</h4>
+          <p>AWS SageMaker, Bedrock, Azure deployment expertise</p>
+        </div>
+
+        <!-- Interactive Code Snippet -->
+        <div class="bento-card wide code-card">
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span>about_me.py</span>
+            </div>
+            <div class="code-content">
+              <pre><code><span class="code-comment"># Building the future of AI</span>
+<span class="code-keyword">class</span> <span class="code-class">AIEngineer</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-param">self</span>):
+        <span class="code-param">self</span>.expertise = [
+            <span class="code-string">"LLMs"</span>, <span class="code-string">"RAG"</span>, <span class="code-string">"Agentic AI"</span>,
+            <span class="code-string">"NLP"</span>, <span class="code-string">"Computer Vision"</span>
+        ]
+        <span class="code-param">self</span>.passion = <span class="code-string">"Building intelligent systems"</span>
+        <span class="code-param">self</span>.status = <span class="code-string">"open_to_work"</span></code></pre>
+            </div>
           </div>
-          <div class="code-line" data-text='class SavanJobanputra:'><span class="code-key"></span></div>
-          <div class="code-line" data-text='  role = "AI/ML Engineer"'><span class="code-value"></span></div>
-          <div class="code-line" data-text='  experience = "5+ years"'><span class="code-string"></span></div>
-          <div class="code-line" data-text='  location = "Ahmedabad, IN"'></div>
-          <div class="code-line" data-text='  passion = "Building AI"'></div>
-          <div class="code-line" data-text='  stack = ["LLMs", "NLP",'></div>
-          <div class="code-line" data-text='    "RAG", "Agentic AI",'></div>
-          <div class="code-line" data-text='    "Computer Vision"]'></div>
-          <div class="code-line" data-text='  status = "Open to work"'></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ SKILLS ═══════════ -->
-  <section class="section" id="skills">
-    <div class="section-header reveal">
-      <span class="section-tag">Tech Arsenal</span>
-      <h2 class="section-title">Skills & <span class="highlight">Technologies</span></h2>
-      <p class="section-subtitle">A comprehensive toolkit for building end-to-end AI solutions.</p>
-    </div>
-    <div class="skills-container">
+  <!-- Skills Section with Interactive Cards -->
+  <section class="section skills-section" id="skills">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-label">Tech Stack</span>
+        <h2 class="section-title">Skills & <span class="gradient-text">Technologies</span></h2>
+      </div>
+
       <div class="skills-grid">
-
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">🧠</div>
-            <h3 class="skill-category-title">Core AI / ML</h3>
+        <div class="skill-card" data-category="ai">
+          <div class="skill-header">
+            <div class="skill-icon">🧠</div>
+            <h3>Core AI / ML</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">Machine Learning</span>
-            <span class="skill-tag">Deep Learning</span>
-            <span class="skill-tag">Neural Networks</span>
-            <span class="skill-tag">NLP</span>
-            <span class="skill-tag">Computer Vision</span>
+            <span class="tag">Python</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Deep Learning</span>
+            <span class="tag">Neural Networks</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Computer Vision</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="95"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">🤖</div>
-            <h3 class="skill-category-title">LLMs & Models</h3>
+        <div class="skill-card" data-category="llm">
+          <div class="skill-header">
+            <div class="skill-icon">🤖</div>
+            <h3>LLMs & Models</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">GPT Models</span>
-            <span class="skill-tag">LLaMA Models</span>
-            <span class="skill-tag">Mistral</span>
-            <span class="skill-tag">Whisper</span>
-            <span class="skill-tag">BERT</span>
-            <span class="skill-tag">DALL-E</span>
-            <span class="skill-tag">Claude</span>
-            <span class="skill-tag">Gemini</span>
-            <span class="skill-tag">Azure OpenAI</span>
+            <span class="tag">GPT Models</span>
+            <span class="tag">LLaMA</span>
+            <span class="tag">Mistral</span>
+            <span class="tag">Whisper</span>
+            <span class="tag">BERT</span>
+            <span class="tag">Claude</span>
+            <span class="tag">Gemini</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="90"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">🔗</div>
-            <h3 class="skill-category-title">Agentic AI &amp; MCP</h3>
+        <div class="skill-card" data-category="agents">
+          <div class="skill-header">
+            <div class="skill-icon">🔗</div>
+            <h3>Agentic AI & MCP</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">MCP</span>
-            <span class="skill-tag">AI Agents</span>
-            <span class="skill-tag">RAG Pipelines</span>
-            <span class="skill-tag">Agentic Workflows</span>
-            <span class="skill-tag">Prompt Engineering</span>
+            <span class="tag">MCP</span>
+            <span class="tag">AI Agents</span>
+            <span class="tag">RAG Pipelines</span>
+            <span class="tag">Agentic Workflows</span>
+            <span class="tag">Prompt Engineering</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="92"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">⚡</div>
-            <h3 class="skill-category-title">Frameworks & Libraries</h3>
+        <div class="skill-card" data-category="frameworks">
+          <div class="skill-header">
+            <div class="skill-icon">⚡</div>
+            <h3>Frameworks</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">LangChain</span>
-            <span class="skill-tag">llamaindex</span>
-            <span class="skill-tag">PyTorch</span>
-            <span class="skill-tag">TensorFlow</span>
-            <span class="skill-tag">CrewAI</span>
-            <span class="skill-tag">OpenCV</span>
-            <span class="skill-tag">Transformers</span>
+            <span class="tag">LangChain</span>
+            <span class="tag">LlamaIndex</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">TensorFlow</span>
+            <span class="tag">CrewAI</span>
+            <span class="tag">OpenCV</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="88"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">🗄️</div>
-            <h3 class="skill-category-title">Vector Databases</h3>
+        <div class="skill-card" data-category="vector">
+          <div class="skill-header">
+            <div class="skill-icon">🗄️</div>
+            <h3>Vector Databases</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">ChromaDB</span>
-            <span class="skill-tag">Pinecone</span>
-            <span class="skill-tag">Weaviate</span>
-            <span class="skill-tag">Qdrant</span>
-            <span class="skill-tag">Milvus</span>
-            <span class="skill-tag">FAISS</span>
-            <span class="skill-tag">pgvector</span>
+            <span class="tag">ChromaDB</span>
+            <span class="tag">Pinecone</span>
+            <span class="tag">Weaviate</span>
+            <span class="tag">Qdrant</span>
+            <span class="tag">FAISS</span>
+            <span class="tag">pgvector</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="85"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">🔌</div>
-            <h3 class="skill-category-title">APIs & Backend</h3>
+        <div class="skill-card" data-category="backend">
+          <div class="skill-header">
+            <div class="skill-icon">🔌</div>
+            <h3>APIs & Backend</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">FastAPI</span>
-            <span class="skill-tag">Flask</span>
-            <span class="skill-tag">Django</span>
-            <span class="skill-tag">RESTful APIs</span>
-            <span class="skill-tag">WebSockets</span>
-            <span class="skill-tag">SQL</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">Flask</span>
+            <span class="tag">Django</span>
+            <span class="tag">RESTful APIs</span>
+            <span class="tag">WebSockets</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="90"></div>
           </div>
         </div>
 
-        <div class="skill-category reveal">
-          <div class="skill-category-header">
-            <div class="skill-category-icon">☁️</div>
-            <h3 class="skill-category-title">Cloud & DevTools</h3>
+        <div class="skill-card" data-category="cloud">
+          <div class="skill-header">
+            <div class="skill-icon">☁️</div>
+            <h3>Cloud & DevTools</h3>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">AWS SageMaker</span>
-            <span class="skill-tag">AWS Bedrock</span>
-            <span class="skill-tag">Azure Services</span>
-            <span class="skill-tag">GCP Services</span>
-            <span class="skill-tag">RunPod</span>
-            <span class="skill-tag">Ubuntu Server</span>
-            <span class="skill-tag">Jupyter notebook</span>
-            <span class="skill-tag">Google Colab</span>
+            <span class="tag">AWS SageMaker</span>
+            <span class="tag">AWS Bedrock</span>
+            <span class="tag">Azure</span>
+            <span class="tag">GCP</span>
+            <span class="tag">RunPod</span>
+          </div>
+          <div class="skill-progress">
+            <div class="progress-bar" data-progress="87"></div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ EXPERIENCE ═══════════ -->
-  <!-- <section class="section" id="experience">
-    <div class="section-header reveal">
-      <span class="section-tag">Career Path</span>
-      <h2 class="section-title">Professional <span class="highlight">Experience</span></h2>
-      <p class="section-subtitle">A journey through building production AI systems at scale.</p>
-    </div>
-    <div class="timeline-container">
-      <div class="timeline-line"></div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <span class="timeline-date">Jan 2024 – Present</span>
-          <h3 class="timeline-role">AI / ML Engineer</h3>
-          <p class="timeline-company">Ahmedabad, India</p>
-          <div class="timeline-projects">
-            <div class="timeline-project">
-              <h4>🤖 AI Agent for Automated User Queries</h4>
-              <ul>
-                <li>Designed an AI agent enabling users to get direct answers without manual app navigation</li>
-                <li>Built intent understanding, input collection, API orchestration & database-driven response delivery
-                </li>
-              </ul>
-            </div>
-            <div class="timeline-project">
-              <h4>🎙️ Realtime AI Interview Assistant</h4>
-              <ul>
-                <li>Engineered WebSocket-based Python backend streaming live audio with sub-second Whisper transcription
-                </li>
-                <li>Applied OpenAI LLM for dynamic follow-up question generation replicating human interviewer
-                  adaptability</li>
-                <li>Integrated ElevenLabs TTS for lifelike audio streamed back to candidates in real time</li>
-              </ul>
-            </div>
-            <div class="timeline-project">
-              <h4>⚙️ n8n Automation for Order Processing</h4>
-              <ul>
-                <li>Built Gmail-triggered n8n workflow to parse natural-language orders, validate, and persist to
-                  database</li>
-                <li>Delivered real-time dashboard visibility & automated responses for invalid/unauthorized orders</li>
-              </ul>
-            </div>
-            <div class="timeline-project">
-              <h4>📞 Calling Chatbot (RAG)</h4>
-              <ul>
-                <li>Built RAG chatbot with continuous knowledge-base updates for accurate responses on live data</li>
-                <li>Applied model quantization on LLaMA-3, deployed via Flask API on RunPod</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <!-- Projects Section -->
+  <section class="section projects-section" id="projects">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-label">Portfolio</span>
+        <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
       </div>
 
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <span class="timeline-date">Feb 2021 – Dec 2023</span>
-          <h3 class="timeline-role">Machine Learning Engineer</h3>
-          <p class="timeline-company">Ahmedabad, India</p>
-          <div class="timeline-projects">
-            <div class="timeline-project">
-              <h4>📊 Analytics Platform Enhancement</h4>
-              <ul>
-                <li>Integrated NER, Key Phrase Extraction & Text Classification modules expanding NLP capabilities</li>
-                <li>Optimized core processing workflows, measurably reducing execution time for high-volume pipelines
-                </li>
-                <li>Delivered seamless client experience improving usability and ensuring smooth feature adoption</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
-  <!-- ═══════════ PROJECTS ═══════════ -->
-  <section class="section" id="projects">
-    <div class="section-header reveal">
-      <span class="section-tag">Portfolio</span>
-      <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
-      <p class="section-subtitle">Production-grade AI systems that solve real-world problems.</p>
-    </div>
-    <div class="projects-grid">
-
-      <div class="project-card reveal">
-        <div class="project-card-header">
+      <div class="projects-grid">
+        <div class="project-card" data-tilt>
+          <div class="project-number">01</div>
           <div class="project-icon">🤖</div>
           <h3>AI Agent for Automated Queries</h3>
-          <p>Autonomous AI agent that understands user intent, orchestrates API calls, and delivers database-driven
-            responses — eliminating manual app navigation.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">LangChain</span>
-            <span class="project-tech">GPT-4</span>
-            <span class="project-tech">FastAPI</span>
-            <span class="project-tech">Agentic AI</span>
+          <p>Autonomous AI agent that understands user intent, orchestrates API calls, and delivers database-driven responses—eliminating manual app navigation.</p>
+          <div class="project-tech">
+            <span>LangChain</span>
+            <span>GPT-4</span>
+            <span>FastAPI</span>
+            <span>Agentic AI</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
-      </div>
 
-      <div class="project-card reveal">
-        <div class="project-card-header">
+        <div class="project-card" data-tilt>
+          <div class="project-number">02</div>
           <div class="project-icon">💬</div>
-          <h3>AI Chatbot using Model Context Protocol</h3>
-          <p>MCP-powered AI chatbot that enables natural language interaction with backend APIs — intelligently
-            identifying tools, collecting inputs, executing calls, and generating conversational responses.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">MCP</span>
-            <span class="project-tech">LLM</span>
-            <span class="project-tech">API Orchestration</span>
-            <span class="project-tech">NLP</span>
-            <span class="project-tech">Tool Calling</span>
+          <h3>AI Chatbot using MCP</h3>
+          <p>MCP-powered AI chatbot that enables natural language interaction with backend APIs—intelligently identifying tools, collecting inputs, and generating responses.</p>
+          <div class="project-tech">
+            <span>MCP</span>
+            <span>LLM</span>
+            <span>API Orchestration</span>
+            <span>NLP</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
-      </div>
 
-      <div class="project-card reveal">
-        <div class="project-card-header">
+        <div class="project-card" data-tilt>
+          <div class="project-number">03</div>
           <div class="project-icon">🎙️</div>
           <h3>Realtime AI Interviewer</h3>
-          <p>WebSocket-powered interview system with live Whisper transcription, LLM-driven follow-ups, and ElevenLabs
-            TTS — all in sub-second latency.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">WebSockets</span>
-            <span class="project-tech">Whisper</span>
-            <span class="project-tech">OpenAI</span>
-            <span class="project-tech">ElevenLabs</span>
+          <p>WebSocket-powered interview system with live Whisper transcription, LLM-driven follow-ups, and ElevenLabs TTS—all in sub-second latency.</p>
+          <div class="project-tech">
+            <span>WebSockets</span>
+            <span>Whisper</span>
+            <span>OpenAI</span>
+            <span>ElevenLabs</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
-      </div>
 
-      <div class="project-card reveal">
-        <div class="project-card-header">
+        <div class="project-card" data-tilt>
+          <div class="project-number">04</div>
           <div class="project-icon">📞</div>
           <h3>RAG Calling Chatbot</h3>
-          <p>Retrieval-Augmented Generation chatbot with live knowledge-base updates, quantized LLaMA-3, and audio
-            transcription deployed on RunPod.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">RAG</span>
-            <span class="project-tech">LLaMA-3</span>
-            <span class="project-tech">Flask</span>
-            <span class="project-tech">RunPod</span>
-            <span class="project-tech">Whisper</span>
+          <p>Retrieval-Augmented Generation chatbot with live knowledge-base updates, quantized LLaMA-3, and audio transcription deployed on RunPod.</p>
+          <div class="project-tech">
+            <span>RAG</span>
+            <span>LLaMA-3</span>
+            <span>Flask</span>
+            <span>RunPod</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
-      </div>
 
-      <div class="project-card reveal">
-        <div class="project-card-header">
+        <div class="project-card" data-tilt>
+          <div class="project-number">05</div>
           <div class="project-icon">⚙️</div>
           <h3>n8n Order Automation</h3>
-          <p>Gmail-triggered n8n workflow that parses natural-language orders, validates them, persists to DB, and
-            auto-responds for invalid requests.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">n8n</span>
-            <span class="project-tech">NLP</span>
-            <span class="project-tech">Gmail API</span>
-            <span class="project-tech">Automation</span>
+          <p>Gmail-triggered n8n workflow that parses natural-language orders, validates them, persists to DB, and auto-responds for invalid requests.</p>
+          <div class="project-tech">
+            <span>n8n</span>
+            <span>NLP</span>
+            <span>Gmail API</span>
+            <span>Automation</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
-      </div>
 
-      <div class="project-card reveal">
-        <div class="project-card-header">
+        <div class="project-card" data-tilt>
+          <div class="project-number">06</div>
           <div class="project-icon">📊</div>
           <h3>Enterprise NLP Analytics</h3>
-          <p>Extended analytics platform with NER, Key Phrase Extraction & Text Classification — optimized for
-            high-volume data pipelines.</p>
-        </div>
-        <div class="project-card-body">
-          <div class="project-tech-stack">
-            <span class="project-tech">NER</span>
-            <span class="project-tech">BERT</span>
-            <span class="project-tech">Python</span>
-            <span class="project-tech">TensorFlow</span>
+          <p>Extended analytics platform with NER, Key Phrase Extraction & Text Classification—optimized for high-volume data pipelines.</p>
+          <div class="project-tech">
+            <span>NER</span>
+            <span>BERT</span>
+            <span>Python</span>
+            <span>TensorFlow</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Learn More →</a>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
-
-
-  <!-- ═══════════ CONTACT ═══════════ -->
-  <section class="section" id="contact">
-    <div class="section-header reveal">
-      <span class="section-tag">Get In Touch</span>
-      <h2 class="section-title">Let's Build Something <span class="highlight">Amazing</span></h2>
-      <p class="section-subtitle">Open to AI/ML roles, consulting, and exciting collaborations.</p>
-    </div>
-    <div class="contact-container">
-      <div class="contact-info reveal">
-        <h3>Reach Out</h3>
-        <p>I'm always excited to discuss AI projects, collaborations, or new opportunities. Let's connect!</p>
-        <div class="contact-links">
-          <a href="mailto:sjworkmail07@gmail.com" class="contact-link" id="contact-email">
-            <div class="contact-link-icon">📧</div>
-            <div class="contact-link-text">
-              <span>Email</span>
-              <p>sjworkmail07@gmail.com</p>
-            </div>
-          </a>
-          <!-- <a href="tel:+917801848393" class="contact-link" id="contact-phone">
-            <div class="contact-link-icon">📱</div>
-            <div class="contact-link-text">
-              <span>Phone</span>
-              <p>+91-78018 48393</p>
-            </div>
-          </a> -->
-          <a href="https://www.linkedin.com/in/savan-jobanputra" target="_blank" class="contact-link"
-            id="contact-linkedin">
-            <div class="contact-link-icon">💼</div>
-            <div class="contact-link-text">
-              <span>LinkedIn</span>
-              <p>Savan Jobanputra</p>
-            </div>
-          </a>
-          <a class="contact-link" id="contact-location">
-            <div class="contact-link-icon">📍</div>
-            <div class="contact-link-text">
-              <span>Location</span>
-              <p>Ahmedabad, India</p>
-            </div>
-          </a>
-        </div>
+  <!-- Contact Section -->
+  <section class="section contact-section" id="contact">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-label">Get In Touch</span>
+        <h2 class="section-title">Let's Build Something <span class="gradient-text">Amazing</span></h2>
       </div>
-      <form class="contact-form reveal" id="contact-form">
-        <div class="form-group">
-          <input type="text" id="form-name" placeholder="Your Name" required>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Reach Out</h3>
+          <p>Open to AI/ML roles, consulting, and exciting collaborations. Let's connect!</p>
+
+          <div class="contact-methods">
+            <a href="mailto:sjworkmail07@gmail.com" class="contact-method">
+              <div class="method-icon">📧</div>
+              <div class="method-text">
+                <span class="method-label">Email</span>
+                <span class="method-value">sjworkmail07@gmail.com</span>
+              </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/savan-jobanputra" target="_blank" class="contact-method">
+              <div class="method-icon">💼</div>
+              <div class="method-text">
+                <span class="method-label">LinkedIn</span>
+                <span class="method-value">Savan Jobanputra</span>
+              </div>
+            </a>
+
+            <div class="contact-method">
+              <div class="method-icon">📍</div>
+              <div class="method-text">
+                <span class="method-label">Location</span>
+                <span class="method-value">Ahmedabad, India</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="email" id="form-email" placeholder="Your Email" required>
-        </div>
-        <div class="form-group">
-          <input type="text" id="form-subject" placeholder="Subject">
-        </div>
-        <div class="form-group">
-          <textarea id="form-message" rows="5" placeholder="Your Message" required></textarea>
-        </div>
-        <button type="submit" class="btn-submit" id="btn-send">Send Message 🚀</button>
-      </form>
+
+        <form class="contact-form" id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-name">Name</label>
+              <input type="text" id="form-name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="form-email">Email</label>
+              <input type="email" id="form-email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="form-subject">Subject</label>
+            <input type="text" id="form-subject" placeholder="What's this about?">
+          </div>
+          <div class="form-group">
+            <label for="form-message">Message</label>
+            <textarea id="form-message" rows="5" placeholder="Your message..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit">
+            <span>Send Message</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M18 2L9 11M18 2l-6 16-3-7-7-3 16-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
+  <!-- Footer -->
   <footer class="footer">
-    <div class="footer-socials">
-      <a href="mailto:sjworkmail07@gmail.com" title="Email" id="footer-email">📧</a>
-      <a href="https://www.linkedin.com/in/savan-jobanputra" target="_blank" title="LinkedIn"
-        id="footer-linkedin">💼</a>
+    <div class="footer-content">
+      <div class="footer-left">
+        <a href="#hero" class="footer-logo">
+          <span class="logo-bracket">&lt;</span>
+          <span class="logo-text">SJ</span>
+          <span class="logo-bracket">/&gt;</span>
+        </a>
+        <p>© 2026 Savan Jobanputra. Crafted with passion & AI.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:sjworkmail07@gmail.com" aria-label="Email">📧</a>
+        <a href="https://www.linkedin.com/in/savan-jobanputra" target="_blank" aria-label="LinkedIn">💼</a>
+      </div>
     </div>
-    <p>© 2026 Savan Jobanputra. Crafted with passion & AI.</p>
   </footer>
 
   <script src="script.js"></script>

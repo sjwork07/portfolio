@@ -1,220 +1,424 @@
-// ─── Particle Background ───
-const canvas = document.getElementById('particles-canvas');
+// ═══════════════════════════════════════════════════════════════
+// THEME SWITCHER
+// ═══════════════════════════════════════════════════════════════
+
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+// Check for saved theme preference or default to light mode
+const currentTheme = localStorage.getItem('theme') || 'light';
+html.setAttribute('data-theme', currentTheme);
+
+themeToggle.addEventListener('click', () => {
+  const theme = html.getAttribute('data-theme');
+  const newTheme = theme === 'light' ? 'dark' : 'light';
+  
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Reinitialize neural network with new theme
+  initNeuralNetwork();
+});
+
+// ═══════════════════════════════════════════════════════════════
+// NEURAL NETWORK CANVAS BACKGROUND
+// ═══════════════════════════════════════════════════════════════
+
+const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
-let particles = [];
-let mouse = { x: null, y: null };
+let nodes = [];
+let connections = [];
+let animationId;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
 
-class Particle {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 2 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
-    this.opacity = Math.random() * 0.5 + 0.1;
+resizeCanvas();
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  initNeuralNetwork();
+});
+
+class Node {
+  constructor(x, y, layer) {
+    this.x = x;
+    this.y = y;
+    this.layer = layer;
+    this.radius = 4;
+    this.targetRadius = 4;
+    this.pulse = Math.random() * Math.PI * 2;
   }
+
   update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    this.pulse += 0.02;
+    this.targetRadius = 4 + Math.sin(this.pulse) * 2;
+    this.radius += (this.targetRadius - this.radius) * 0.1;
   }
+
   draw() {
+    const theme = html.getAttribute('data-theme');
+    const nodeColor = theme === 'dark' 
+      ? 'rgba(59, 130, 246, 0.8)' 
+      : 'rgba(37, 99, 235, 0.8)';
+    
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = nodeColor;
+    ctx.fill();
+    
+    // Glow effect
+    const gradient = ctx.createRadialGradient(
+      this.x, this.y, 0,
+      this.x, this.y, this.radius * 3
+    );
+    gradient.addColorStop(0, theme === 'dark' 
+      ? 'rgba(59, 130, 246, 0.3)' 
+      : 'rgba(37, 99, 235, 0.2)');
+    gradient.addColorStop(1, 'transparent');
+    
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
     ctx.fill();
   }
 }
 
-function initParticles() {
-  particles = [];
-  const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
-  for (let i = 0; i < count; i++) particles.push(new Particle());
-}
-initParticles();
+class Connection {
+  constructor(fromNode, toNode) {
+    this.from = fromNode;
+    this.to = toNode;
+    this.weight = Math.random();
+    this.pulse = 0;
+  }
 
-function connectParticles() {
-  for (let a = 0; a < particles.length; a++) {
-    for (let b = a + 1; b < particles.length; b++) {
-      const dx = particles[a].x - particles[b].x;
-      const dy = particles[a].y - particles[b].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(99, 102, 241, ${0.08 * (1 - dist / 120)})`;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(particles[a].x, particles[a].y);
-        ctx.lineTo(particles[b].x, particles[b].y);
-        ctx.stroke();
-      }
-    }
+  update() {
+    this.pulse += 0.02;
+    if (this.pulse > 1) this.pulse = 0;
+  }
+
+  draw() {
+    const theme = html.getAttribute('data-theme');
+    const opacity = 0.1 + Math.sin(this.pulse * Math.PI) * 0.05;
+    
+    ctx.beginPath();
+    ctx.moveTo(this.from.x, this.from.y);
+    ctx.lineTo(this.to.x, this.to.y);
+    ctx.strokeStyle = theme === 'dark'
+      ? `rgba(59, 130, 246, ${opacity})`
+      : `rgba(37, 99, 235, ${opacity})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Animated data flow
+    const dx = this.to.x - this.from.x;
+    const dy = this.to.y - this.from.y;
+    const dotX = this.from.x + dx * this.pulse;
+    const dotY = this.from.y + dy * this.pulse;
+    
+    ctx.beginPath();
+    ctx.arc(dotX, dotY, 2, 0, Math.PI * 2);
+    ctx.fillStyle = theme === 'dark'
+      ? `rgba(139, 92, 246, ${0.5 + Math.sin(this.pulse * Math.PI) * 0.3})`
+      : `rgba(124, 58, 237, ${0.5 + Math.sin(this.pulse * Math.PI) * 0.3})`;
+    ctx.fill();
   }
 }
 
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  connectParticles();
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
+function initNeuralNetwork() {
+  nodes = [];
+  connections = [];
+  
+  // Create layers
+  const layers = [8, 12, 16, 12, 8]; // Neural network structure
+  const layerSpacing = canvas.width / (layers.length + 1);
+  
+  layers.forEach((nodeCount, layerIndex) => {
+    const nodeSpacing = canvas.height / (nodeCount + 1);
+    for (let i = 0; i < nodeCount; i++) {
+      const x = layerSpacing * (layerIndex + 1);
+      const y = nodeSpacing * (i + 1);
+      nodes.push(new Node(x, y, layerIndex));
+    }
+  });
 
-// ─── Navbar Scroll Effect ───
+  // Create connections between adjacent layers
+  let nodeIndex = 0;
+  for (let layerIndex = 0; layerIndex < layers.length - 1; layerIndex++) {
+    const currentLayerSize = layers[layerIndex];
+    const nextLayerSize = layers[layerIndex + 1];
+    
+    for (let i = 0; i < currentLayerSize; i++) {
+      for (let j = 0; j < nextLayerSize; j++) {
+        const fromNode = nodes[nodeIndex + i];
+        const toNode = nodes[nodeIndex + currentLayerSize + j];
+        if (Math.random() > 0.3) { // Not all connections
+          connections.push(new Connection(fromNode, toNode));
+        }
+      }
+    }
+    nodeIndex += currentLayerSize;
+  }
+}
+
+function animateNeuralNetwork() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Update and draw connections
+  connections.forEach(connection => {
+    connection.update();
+    connection.draw();
+  });
+  
+  // Update and draw nodes
+  nodes.forEach(node => {
+    node.update();
+    node.draw();
+  });
+  
+  animationId = requestAnimationFrame(animateNeuralNetwork);
+}
+
+initNeuralNetwork();
+animateNeuralNetwork();
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+
 const navbar = document.querySelector('.navbar');
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+const navItems = document.querySelectorAll('.nav-links a');
+
+// Scroll effect
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  // Active section highlighting
+  const sections = document.querySelectorAll('.section, .hero');
+  let current = '';
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 150;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === `#${current}`) {
+      item.classList.add('active');
+    }
+  });
 });
 
-// ─── Mobile Menu ───
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+// Mobile menu
 hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('active');
   navLinks.classList.toggle('open');
 });
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
     hamburger.classList.remove('active');
     navLinks.classList.remove('open');
   });
 });
 
-// ─── Active Nav Link on Scroll ───
-const sections = document.querySelectorAll('.section, .hero');
-const navItems = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const top = section.offsetTop - 150;
-    if (scrollY >= top) current = section.getAttribute('id');
-  });
-  navItems.forEach(item => {
-    item.classList.remove('active');
-    if (item.getAttribute('href') === '#' + current) item.classList.add('active');
-  });
-});
+// ═══════════════════════════════════════════════════════════════
+// TYPING EFFECT
+// ═══════════════════════════════════════════════════════════════
 
-// ─── Scroll Reveal ───
-const revealElements = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
+const typingText = document.querySelector('.typing-text');
+if (typingText) {
+  const text = typingText.textContent;
+  typingText.textContent = '';
+  let index = 0;
+
+  function type() {
+    if (index < text.length) {
+      typingText.textContent += text.charAt(index);
+      index++;
+      setTimeout(type, 50);
     }
-  });
-}, { threshold: 0.1 });
-revealElements.forEach(el => revealObserver.observe(el));
+  }
 
-// ─── Animated Counter ───
-function animateCounters() {
-  document.querySelectorAll('[data-count]').forEach(el => {
-    const target = parseInt(el.getAttribute('data-count'));
-    const suffix = el.getAttribute('data-suffix') || '';
-    let current = 0;
-    const increment = target / 60;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        current = target;
-        clearInterval(timer);
-      }
-      el.textContent = Math.floor(current) + suffix;
-    }, 25);
-  });
+  setTimeout(type, 500);
 }
 
-const statsObserver = new IntersectionObserver((entries) => {
+// ═══════════════════════════════════════════════════════════════
+// TERMINAL COMMAND TYPING
+// ═══════════════════════════════════════════════════════════════
+
+const commandElement = document.querySelector('.command');
+if (commandElement) {
+  const commandText = commandElement.getAttribute('data-text');
+  commandElement.textContent = '';
+  let cmdIndex = 0;
+
+  function typeCommand() {
+    if (cmdIndex < commandText.length) {
+      commandElement.textContent += commandText.charAt(cmdIndex);
+      cmdIndex++;
+      setTimeout(typeCommand, 30);
+    } else {
+      // Show output after command completes
+      setTimeout(() => {
+        document.querySelector('.terminal-output').style.display = 'block';
+      }, 300);
+    }
+  }
+
+  setTimeout(typeCommand, 1500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATED COUNTER
+// ═══════════════════════════════════════════════════════════════
+
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute('data-count'));
+  let current = 0;
+  const increment = target / 60;
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = target + '+';
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current) + '+';
+    }
+  }, 30);
+}
+
+// Intersection Observer for counters
+const counterObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      animateCounters();
-      statsObserver.unobserve(entry.target);
+      const counters = entry.target.querySelectorAll('[data-count]');
+      counters.forEach(counter => animateCounter(counter));
+      counterObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.5 });
 
-const statsSection = document.querySelector('.hero-stats');
-if (statsSection) statsObserver.observe(statsSection);
-
-// ─── Typing Effect for Code Block ───
-function typeCode() {
-  const codeLines = document.querySelectorAll('.code-line[data-text]');
-  let delay = 0;
-  codeLines.forEach((line, i) => {
-    const text = line.getAttribute('data-text');
-    line.innerHTML = '';
-    const chars = text.split('');
-    chars.forEach((char, j) => {
-      setTimeout(() => {
-        line.innerHTML += char;
-        // Add cursor to last char of last line
-        if (i === codeLines.length - 1 && j === chars.length - 1) {
-          const cursor = document.createElement('span');
-          cursor.className = 'typing-cursor';
-          line.appendChild(cursor);
-        }
-      }, delay + j * 30);
-    });
-    delay += chars.length * 30 + 200;
-  });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) {
+  counterObserver.observe(heroStats);
 }
 
-const codeObserver = new IntersectionObserver((entries) => {
+// ═══════════════════════════════════════════════════════════════
+// 3D TILT EFFECT
+// ═══════════════════════════════════════════════════════════════
+
+const tiltElements = document.querySelectorAll('[data-tilt]');
+
+tiltElements.forEach(element => {
+  element.addEventListener('mousemove', (e) => {
+    const rect = element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+  });
+  
+  element.addEventListener('mouseleave', () => {
+    element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// SKILL PROGRESS BARS
+// ═══════════════════════════════════════════════════════════════
+
+const skillObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      typeCode();
-      codeObserver.unobserve(entry.target);
+      const progressBar = entry.target.querySelector('.progress-bar');
+      const progress = progressBar.getAttribute('data-progress');
+      setTimeout(() => {
+        progressBar.style.width = progress + '%';
+      }, 200);
+      skillObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.3 });
 
-const codeBlock = document.querySelector('.about-code-block');
-if (codeBlock) codeObserver.observe(codeBlock);
+document.querySelectorAll('.skill-card').forEach(card => {
+  skillObserver.observe(card);
+});
 
-// ─── Smooth Scroll for Anchor Links ───
+// ═══════════════════════════════════════════════════════════════
+// SCROLL REVEAL ANIMATIONS
+// ═══════════════════════════════════════════════════════════════
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('fade-in');
+      }, index * 100);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+// Observe all cards
+document.querySelectorAll('.bento-card, .skill-card, .project-card').forEach(element => {
+  revealObserver.observe(element);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// SMOOTH SCROLLING
+// ═══════════════════════════════════════════════════════════════
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   });
 });
 
-// ─── EmailJS Setup ───
-// Steps to enable real email delivery:
-// 1. Go to https://www.emailjs.com and create a free account
-// 2. Add an Email Service (e.g. Gmail) → note your SERVICE_ID
-// 3. Create an Email Template using these variables:
-//      {{from_name}}, {{from_email}}, {{subject}}, {{message}}
-//    → note your TEMPLATE_ID
-// 4. Go to Account → API Keys → copy your PUBLIC_KEY
-// 5. Replace the three placeholders below:
-const EMAILJS_SERVICE_ID = 'service_qi5jk2m';   // e.g. 'service_abc123'
-const EMAILJS_TEMPLATE_ID = 'template_k9iiet8';  // e.g. 'template_xyz789'
-const EMAILJS_PUBLIC_KEY = 's21_mlNeIaN77TMRs';   // e.g. 'abcDEF123456'
+// ═══════════════════════════════════════════════════════════════
+// EMAILJS CONTACT FORM
+// ═══════════════════════════════════════════════════════════════
+
+const EMAILJS_SERVICE_ID = 'service_qi5jk2m';
+const EMAILJS_TEMPLATE_ID = 'template_k9iiet8';
+const EMAILJS_PUBLIC_KEY = 's21_mlNeIaN77TMRs';
 
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
-// ─── Form Handling ───
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const btn = this.querySelector('.btn-submit');
-    const originalText = btn.textContent;
+    const originalText = btn.innerHTML;
 
-    // Disable button and show loading state
+    // Disable button and show loading
     btn.disabled = true;
-    btn.textContent = '⏳ Sending…';
-    btn.style.opacity = '0.8';
+    btn.innerHTML = '<span>Sending...</span>';
+    btn.style.opacity = '0.7';
 
     const templateParams = {
       from_name: document.getElementById('form-name').value.trim(),
@@ -225,43 +429,105 @@ if (contactForm) {
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
       .then(() => {
-        btn.textContent = '✓ Message Sent!';
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+        btn.innerHTML = '<span>Message Sent! ✓</span>';
         btn.style.opacity = '1';
         this.reset();
         setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.background = '';
+          btn.innerHTML = originalText;
           btn.disabled = false;
         }, 4000);
       })
       .catch((err) => {
         console.error('EmailJS error:', err);
-        btn.textContent = '❌ Failed — Try Again';
-        btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+        btn.innerHTML = '<span>Failed. Try Again ✗</span>';
         btn.style.opacity = '1';
         setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.background = '';
+          btn.innerHTML = originalText;
           btn.disabled = false;
         }, 4000);
       });
   });
 }
 
-// ─── Tilt Effect on Project Cards ───
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
+// ═══════════════════════════════════════════════════════════════
+// PARALLAX EFFECT ON SCROLL
+// ═══════════════════════════════════════════════════════════════
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  const terminal = document.querySelector('.terminal-3d');
+  
+  if (terminal) {
+    terminal.style.transform = `rotateY(-5deg) rotateX(5deg) translateY(${scrolled * 0.1}px)`;
+  }
 });
+
+// ═══════════════════════════════════════════════════════════════
+// CURSOR TRAIL EFFECT (OPTIONAL - ADDS EXTRA CREATIVITY)
+// ═══════════════════════════════════════════════════════════════
+
+const coords = { x: 0, y: 0 };
+const circles = document.querySelectorAll(".circle");
+
+if (circles.length === 0) {
+  // Create cursor trail circles
+  for (let i = 0; i < 20; i++) {
+    const circle = document.createElement('div');
+    circle.className = 'circle';
+    circle.style.cssText = `
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      mix-blend-mode: difference;
+      background: white;
+    `;
+    document.body.appendChild(circle);
+  }
+}
+
+const circleElements = document.querySelectorAll(".circle");
+
+circleElements.forEach(function (circle) {
+  circle.x = 0;
+  circle.y = 0;
+});
+
+window.addEventListener("mousemove", function(e){
+  coords.x = e.clientX;
+  coords.y = e.clientY;
+});
+
+function animateCircles() {
+  let x = coords.x;
+  let y = coords.y;
+  
+  circleElements.forEach(function (circle, index) {
+    circle.style.left = x - 4 + "px";
+    circle.style.top = y - 4 + "px";
+    
+    circle.style.transform = `scale(${(circleElements.length - index) / circleElements.length})`;
+    
+    circle.x = x;
+    circle.y = y;
+
+    const nextCircle = circleElements[index + 1] || circleElements[0];
+    x += (nextCircle.x - x) * 0.3;
+    y += (nextCircle.y - y) * 0.3;
+  });
+ 
+  requestAnimationFrame(animateCircles);
+}
+
+animateCircles();
+
+// ═══════════════════════════════════════════════════════════════
+// CONSOLE MESSAGE (EASTER EGG FOR DEVELOPERS)
+// ═══════════════════════════════════════════════════════════════
+
+console.log('%c👋 Hey Developer!', 'font-size: 20px; font-weight: bold; color: #2563EB;');
+console.log('%cLike what you see? Let\'s build something amazing together!', 'font-size: 14px; color: #7C3AED;');
+console.log('%c📧 Email: sjworkmail07@gmail.com', 'font-size: 12px; color: #10B981;');
+console.log('%c💼 LinkedIn: linkedin.com/in/savan-jobanputra', 'font-size: 12px; color: #10B981;');
